@@ -1,0 +1,56 @@
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-header {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+  margin: 0;
+  
+  font-size: 2rem;
+  color: #646cff;
+}
+
+.map-box {
+  width: 45%;
+  height: 45vh;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.app-footer {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  color: #888;
+  margin-top: auto;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
