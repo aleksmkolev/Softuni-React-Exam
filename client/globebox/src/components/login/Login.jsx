@@ -1,43 +1,65 @@
-import { useActionState, useContext } from "react";
-import { Link, useNavigate } from "react-router";
-import { useLogin } from "../../api/authApi";
-import { UserContext } from "../../contexts/UserContext";
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContextInstance';
+import { useLogin } from '../../api/authApi';
+import '../../../public/styles/Login.css';
 
 export default function Login() {
     const navigate = useNavigate();
     const { userLoginHandler } = useContext(UserContext);
     const { login } = useLogin();
 
-    const loginHandler = async (_, formData) => {
+    const loginHandler = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
         const values = Object.fromEntries(formData);
 
-        const authData = await login(values.email, values.password);
-
-        userLoginHandler(authData);
-
-        navigate('/games');
+        try {
+            const authData = await login(values.email, values.password);
+            userLoginHandler(authData);
+            navigate('/');
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
     };
 
-    const [loginAction, isPending] = useActionState(loginHandler, { email: '', password: '' });
-
     return (
-        <section id="login-page" className="auth">
-            <form id="login" action={loginAction}>
+        <div className="auth-container">
+            <form className="auth-form" onSubmit={loginHandler}>
+                <h1>Login</h1>
+                
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email"
+                        required 
+                    />
+                </div>
 
-                <div className="container">
-                    <div className="brand-logo"></div>
-                    <h1>Login</h1>
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Sokka@gmail.com" />
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password"
+                        required 
+                    />
+                </div>
 
-                    <label htmlFor="login-pass">Password:</label>
-                    <input type="password" id="login-password" name="password" />
-                    <input type="submit" className="btn submit" value="Login" disabled={isPending} />
-                    <p className="field">
-                        <span>If you dont have profile click <Link to="/register">here</Link></span>
-                    </p>
+                <button type="submit" className="submit-btn">
+                    Login
+                </button>
+
+                <div className="auth-link">
+                    Dont have an account?
+                    <Link to="/register">Register here</Link>
                 </div>
             </form>
-        </section>
+        </div>
     );
 }

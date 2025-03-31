@@ -6,20 +6,27 @@ import Map from './components/map/Map'
 import Footer from './components/footer/Footer'
 import Login from './components/login/Login'
 import Register from './components/register/Register'
+import { UserProvider } from './contexts/UserContext.jsx'
+import Home from './components/home/Home'
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Map />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <div className="app-container">
+          <Header />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/map" element={<Map />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </UserProvider>
   )
 }
 
