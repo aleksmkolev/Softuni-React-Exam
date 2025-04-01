@@ -86,3 +86,23 @@
     z-index: 1000;
     pointer-events: none;
   }
+
+  .marker-info {
+    padding: 10px;
+    max-width: 250px;
+  }
+
+  .marker-info h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+  }
+
+  .marker-info p {
+    margin: 5px 0;
+    color: #666;
+  }
+
+  .marker-info img {
+    border-radius: 4px;
+    margin: 10px 0;
+  }

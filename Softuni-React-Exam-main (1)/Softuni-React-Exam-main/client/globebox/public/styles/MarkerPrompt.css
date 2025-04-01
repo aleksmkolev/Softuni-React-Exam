@@ -1,6 +1,6 @@
 .marker-prompt {
     position: absolute;
-    background: white;
+    background: rgb(210, 27, 27);
     padding: 2px 3px;
     border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);

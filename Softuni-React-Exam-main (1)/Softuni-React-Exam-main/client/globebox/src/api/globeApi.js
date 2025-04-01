@@ -68,14 +68,15 @@ export const useLatestMarkers = () => {
 export const useCreateMarker = () => {
     const {options} = useAuth();
 
-    // const createPark = (parkData) => {
-    const createMarker = ({name, location, description, imageUrl, lat, lng}) => {
-        let imageUrls = [];
-        if(imageUrl !== ''){
-            imageUrls.push(imageUrl);
-        }
-
-        return request.post(baseUrl, {name, location, description, imageUrl, lat, lng}, options);
+    const createMarker = ({name, description, imageUrl, rating, lat, lng}) => {
+        return request.post(baseUrl, {
+            name,
+            description,
+            imageUrl,
+            rating,
+            lat,
+            lng
+        }, options);
     };
 
     return {

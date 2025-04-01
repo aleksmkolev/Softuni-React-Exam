@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
@@ -25,17 +25,14 @@ function Map() {
     if (isMapRoute) {
       markerService.getAll()
         .then(loadedMarkers => {
-          setMarkers(loadedMarkers.map(marker => ({
-            lat: marker.lat,
-            lng: marker.lng
-          })));
+          setMarkers(loadedMarkers);
         })
         .catch(error => console.error('Failed to load markers:', error));
     }
   }, [isMapRoute]);
 
   const handleMarkerAdd = (newMarker) => {
-    setMarkers([...markers, newMarker]);
+    setMarkers(prevMarkers => [...prevMarkers, newMarker]);
   };
 
   return (
@@ -59,11 +56,26 @@ function Map() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {isMapRoute && accessToken && <MarkerComponent onMarkerAdd={handleMarkerAdd} />}
-        {markers.map((position, idx) => (
+        {markers.map((marker, idx) => (
           <Marker 
             key={idx} 
-            position={position}
-          />
+            position={{ lat: marker.lat, lng: marker.lng }}
+          >
+            <Popup>
+              <div className="marker-info">
+                <h3>{marker.name}</h3>
+                <p>{marker.description}</p>
+                {marker.imageUrl && (
+                  <img 
+                    src={marker.imageUrl} 
+                    alt={marker.name}
+                    style={{ maxWidth: '200px', marginTop: '10px' }}
+                  />
+                )}
+                <p>Rating: {marker.rating}/10</p>
+              </div>
+            </Popup>
+          </Marker>
         ))}
       </MapContainer>
     </div>

@@ -1,23 +1,39 @@
-import request from "../utils/request";
-import authService from "./authService";
+import request from '../utils/request';
 
-const baseUrl = 'http://localhost:3030/jsonstore/markers';
+const baseUrl = 'http://localhost:3030/data/locations';
 
-export default {
-    async getAll() {
-        const response = await request.get(baseUrl);
-        return Object.values(response || {});
+const markerService = {
+    async create(markerData, token) {
+        try {
+            const options = {
+                headers: {
+                    'X-Authorization': token
+                }
+            };
+            
+            const savedMarker = await request.post(baseUrl, {
+                name: markerData.name,
+                description: markerData.description,
+                imageUrl: markerData.imageUrl,
+                rating: markerData.rating,
+                lat: markerData.lat,
+                lng: markerData.lng,
+            }, options);
+            return savedMarker;
+        } catch (error) {
+            console.error('Error creating marker:', error);
+            throw error;
+        }
     },
 
-    async create(position) {
-        const markerData = {
-            lat: position.lat,
-            lng: position.lng,
-            timestamp: new Date().toISOString(),
-            userEmail: authService.getUserEmail()
-        };
-        
-        const response = await request.post(baseUrl, markerData);
-        return response;
+    async getAll() {
+        try {
+            return await request.get(baseUrl);
+        } catch (error) {
+            console.error('Error fetching markers:', error);
+            return [];
+        }
     }
 };
+
+export default markerService;

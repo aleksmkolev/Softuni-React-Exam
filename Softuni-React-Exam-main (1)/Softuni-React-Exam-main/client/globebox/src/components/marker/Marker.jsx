@@ -1,15 +1,12 @@
-import { Marker, useMapEvents } from 'react-leaflet';
+import { Marker, useMapEvents, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useState, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import markerService from '../../services/markerService';
-import MarkerPrompt from './MarkerPrompt';
+import MarkerForm from './MarkerForm';
 
 export default function MarkerComponent({ onMarkerAdd }) {
     const [tempMarker, setTempMarker] = useState(null);
-    const [showPrompt, setShowPrompt] = useState(false);
-    const [promptPosition, setPromptPosition] = useState({ x: 0, y: 0 });
-    const [showAbove, setShowAbove] = useState(true);
     const { accessToken } = useContext(UserContext);
 
     const defaultIcon = new Icon({
@@ -22,39 +19,34 @@ export default function MarkerComponent({ onMarkerAdd }) {
         shadowSize: [41, 41]
     });
 
-    const map = useMapEvents({
+    useMapEvents({
         click: (e) => {
             if (!accessToken) return;
-
-            const point = map.latLngToContainerPoint(e.latlng);
-            
-            const spaceAbove = point.y > 25;
-            setShowAbove(spaceAbove);
-
-            setPromptPosition({
-                x: point.x,
-                y: spaceAbove ? point.y - 2 : point.y + 2
+            setTempMarker({
+                position: e.latlng,
+                popup: true
             });
-            setTempMarker(e.latlng);
-            setShowPrompt(true);
         },
     });
 
-    const handleSaveMarker = async () => {
+    const handleSaveMarker = async (formData) => {
         if (tempMarker && accessToken) {
             try {
-                await markerService.create(tempMarker);
-                onMarkerAdd(tempMarker);
+                const markerData = {
+                    ...formData,
+                    lat: tempMarker.position.lat,
+                    lng: tempMarker.position.lng,
+                };
+                const savedMarker = await markerService.create(markerData, accessToken);
+                onMarkerAdd(savedMarker);
+                setTempMarker(null);
             } catch (error) {
                 console.error('Failed to save marker:', error);
             }
         }
-        setShowPrompt(false);
-        setTempMarker(null);
     };
 
     const handleCancelMarker = () => {
-        setShowPrompt(false);
         setTempMarker(null);
     };
 
@@ -64,15 +56,15 @@ export default function MarkerComponent({ onMarkerAdd }) {
 
     return (
         <>
-            {showPrompt && <div className="overlay" />}
-            {tempMarker && <Marker position={tempMarker} icon={defaultIcon} />}
-            {showPrompt && (
-                <MarkerPrompt
-                    showAbove={showAbove}
-                    promptPosition={promptPosition}
-                    onSave={handleSaveMarker}
-                    onCancel={handleCancelMarker}
-                />
+            {tempMarker && (
+                <Marker position={tempMarker.position} icon={defaultIcon}>
+                    <Popup closeButton={false}>
+                        <MarkerForm 
+                            onSave={handleSaveMarker}
+                            onCancel={handleCancelMarker}
+                        />
+                    </Popup>
+                </Marker>
             )}
         </>
     );
