@@ -1,8 +1,9 @@
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
 import MarkerComponent from '../marker/Marker';
+import markerService from '../../services/markerService';
 import '../../../public/styles/Map.css';
 
 // Fix for the default marker icon
@@ -17,6 +18,19 @@ function Map() {
   const [markers, setMarkers] = useState([]);
   const location = useLocation();
   const isMapRoute = location.pathname === '/map';
+
+  useEffect(() => {
+    if (isMapRoute) {
+      markerService.getAll()
+        .then(loadedMarkers => {
+          setMarkers(loadedMarkers.map(marker => ({
+            lat: marker.lat,
+            lng: marker.lng
+          })));
+        })
+        .catch(error => console.error('Failed to load markers:', error));
+    }
+  }, [isMapRoute]);
 
   const handleMarkerAdd = (newMarker) => {
     setMarkers([...markers, newMarker]);

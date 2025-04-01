@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UserContext } from './UserContextInstance';
+import authService from '../services/authService';
 
 export const UserProvider = ({ children }) => {
     const [auth, setAuth] = useState({});
 
     const userLoginHandler = (authData) => {
         setAuth(authData);
-        localStorage.setItem('accessToken', authData.accessToken);
     };
 
     const userLogoutHandler = () => {
         setAuth({});
-        localStorage.removeItem('accessToken');
     };
 
     const contextValue = {
@@ -20,6 +19,16 @@ export const UserProvider = ({ children }) => {
         userLogoutHandler,
         isAuthenticated: !!auth.accessToken
     };
+
+    // Check session on mount
+    useEffect(() => {
+        authService.getSession()
+            .then(session => {
+                if (session) {
+                    setAuth(session);
+                }
+            });
+    }, []);
 
     return (
         <UserContext.Provider value={contextValue}>

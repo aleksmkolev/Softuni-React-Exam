@@ -6,7 +6,7 @@ const baseUrl = 'http://localhost:3030/jsonstore/markers';
 export default {
     async getAll() {
         const response = await request.get(baseUrl);
-        return Object.values(response);
+        return Object.values(response || {});
     },
 
     async create(position) {
@@ -17,6 +17,7 @@ export default {
             userEmail: authService.getUserEmail()
         };
         
-        return request.post(baseUrl, markerData);
+        const response = await request.post(baseUrl, markerData);
+        return response;
     }
 };

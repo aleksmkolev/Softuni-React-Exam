@@ -9,11 +9,6 @@ export default {
             email,
             password
         });
-        
-        // Store auth data
-        localStorage.setItem('authToken', response.accessToken);
-        localStorage.setItem('userEmail', response.email);
-        
         return response;
     },
 
@@ -22,27 +17,19 @@ export default {
             email,
             password
         });
-        
-        localStorage.setItem('authToken', response.accessToken);
-        localStorage.setItem('userEmail', response.email);
-        
         return response;
     },
 
     logout() {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userEmail');
+        return request.post(`${baseUrl}/logout`);
     },
 
-    getToken() {
-        return localStorage.getItem('authToken');
-    },
-
-    isAuthenticated() {
-        return !!this.getToken();
-    },
-
-    getUserEmail() {
-        return localStorage.getItem('userEmail');
+    async getSession() {
+        try {
+            const response = await request.get(`${baseUrl}/session`);
+            return response;
+        } catch (error) {
+            return (error);
+        }
     }
 };

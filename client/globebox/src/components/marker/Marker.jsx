@@ -1,11 +1,12 @@
 import { Marker, useMapEvents } from 'react-leaflet';
 import { Icon } from 'leaflet';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import markerService from '../../services/markerService';
-import authService from '../../services/authService';
+import { UserContext } from '../../contexts/UserContextInstance';
 import MarkerPrompt from './MarkerPrompt';
 
 export default function MarkerComponent({ onMarkerAdd }) {
+    const { isAuthenticated } = useContext(UserContext);
     const [tempMarker, setTempMarker] = useState(null);
     const [showPrompt, setShowPrompt] = useState(false);
     const [promptPosition, setPromptPosition] = useState({ x: 0, y: 0 });
@@ -24,7 +25,7 @@ export default function MarkerComponent({ onMarkerAdd }) {
     const map = useMapEvents({
         click: (e) => {
             // Only proceed if user is authenticated
-            if (!authService.isAuthenticated()) {
+            if (!isAuthenticated) {
                 return;
             }
 
@@ -62,7 +63,7 @@ export default function MarkerComponent({ onMarkerAdd }) {
     };
 
     // Don't render anything if user is not authenticated
-    if (!authService.isAuthenticated()) {
+    if (!isAuthenticated) {
         return null;
     }
 
