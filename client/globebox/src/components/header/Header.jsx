@@ -9,9 +9,10 @@ function Header() {
     const { auth, userLogoutHandler } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const handleLogout = async () => {
-        await authService.logout();
+    const handleLogout = () => {
         userLogoutHandler();
+        // Clear local storage
+        authService.logout();
         navigate('/');
     };
 

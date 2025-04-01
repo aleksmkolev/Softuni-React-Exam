@@ -4,11 +4,13 @@ import { UserContext } from '../../contexts/UserContextInstance';
 import authService from '../../services/authService';
 
 export default function Navbar() {
-    const { auth, isAuthenticated } = useContext(UserContext);
+    const { user } = useContext(UserContext);
+    const isAuthenticated = authService.isAuthenticated();
+    const userEmail = user?.email || authService.getUserEmail();
 
-    const handleLogout = async () => {
-        await authService.logout();
-        window.location.reload();
+    const handleLogout = () => {
+        authService.logout();
+        window.location.reload(); // Refresh to update auth state
     };
 
     return (
@@ -19,7 +21,7 @@ export default function Navbar() {
             <div className="nav-links">
                 {isAuthenticated ? (
                     <>
-                        <span className="user-email">{auth.email}</span>
+                        <span className="user-email">{userEmail}</span>
                         <button onClick={handleLogout} className="nav-link">Logout</button>
                     </>
                 ) : (
