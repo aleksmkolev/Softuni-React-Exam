@@ -6,10 +6,11 @@ import Map from './components/map/Map'
 import Footer from './components/footer/Footer'
 import Login from './components/login/Login'
 import Register from './components/register/Register'
-import { UserProvider } from './contexts/UserContext.jsx'
+import { UserProvider } from './contexts/UserContextInstance'
 import Home from './components/home/Home'
 
-function App() {
+
+export default function App() {
   return (
     <UserProvider>
       <BrowserRouter>
@@ -30,4 +31,3 @@ function App() {
   )
 }
 
-export default App
