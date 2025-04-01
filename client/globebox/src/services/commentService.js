@@ -1,16 +1,16 @@
 import request from "../utils/request";
 
-const baseUrl = 'http://localhost:3030/jsonstore/comments';
+const baseUrl = 'http://localhost:3030/jsonstore/markers';
 
 export default {
-    async getAll(gameId) {
+    async getAll(markerId) {
         const comments = await request.get(baseUrl);
 
-        const gameComments = Object.values(comments).filter(comment => comment.gameId === gameId);
+        const markerComments = Object.values(comments).filter(comment => comment.markerId === markerId);
 
-        return gameComments;
+        return markerComments;
     },
-    create(email, gameId, comment) {
-        return request.post(baseUrl, { email, gameId, comment });
+    create(email, markerId, comment) {
+        return request.post(baseUrl, { email, markerId, comment });
     }
 };

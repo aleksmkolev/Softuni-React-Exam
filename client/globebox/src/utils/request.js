@@ -1,29 +1,31 @@
 const request = async (method, url, data, options = {}) => {
-    if (method !== 'GET') {
-        options.method = method;
-    }
+    const headers = {
+        ...(data ? { 'Content-Type': 'application/json' } : {}),
+        ...options.headers,
+    };
+
+    const requestOptions = {
+        method: method || 'GET',
+        headers,
+        ...options,
+    };
 
     if (data) {
-        options = {
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers,
-            },
-            body: JSON.stringify(data),
-        }
+        requestOptions.body = JSON.stringify(data);
     }
 
-    const response = await fetch(url, options);
-    const responseContentType = response.headers.get('Content-Type');
-    if (!responseContentType) {
-        return;
-    }
+    const response = await fetch(url, requestOptions);
     
+    if (!response.ok) {
+        // Get error message from server or use default message
+        const error = await response.json()
+            .catch(() => ({ message: 'An error occurred' }));
+            
+        throw new Error(error.message || `HTTP error! status: ${response.status}`);
+    }
+
     const result = await response.json();
-
     return result;
-
 };
 
 export default {

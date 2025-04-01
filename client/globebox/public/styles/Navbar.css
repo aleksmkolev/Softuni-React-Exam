@@ -1,0 +1,17 @@
+.user-email {
+    color: #646cff;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(100, 108, 255, 0.1);
+}

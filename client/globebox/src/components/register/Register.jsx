@@ -1,37 +1,46 @@
-import { useContext } from "react";
-import { useRegister } from "../../api/authApi";
-import { UserContext } from '../../contexts/UserContextInstance';
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import '../../../public/styles/Login.css';
+import { UserContext } from '../../contexts/UserContextInstance';
+import authService from '../../services/authService';
+import '../../../public/styles/Register.css';
 
-export default function Register() {
+function Register() {
+    const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { register } = useRegister();
     const { userLoginHandler } = useContext(UserContext);
 
     const registerHandler = async (e) => {
         e.preventDefault();
+        setError('');
         const formData = new FormData(e.target);
         const { email, password, confirmPassword } = Object.fromEntries(formData);
 
         if (password !== confirmPassword) {
-            // Add error handling here
+            setError('Passwords do not match');
             return;
         }
 
         try {
-            const authData = await register(email, password);
-            userLoginHandler(authData);
+            // Register and get auth data
+            const authData = await authService.register(email, password);
+            // Update the auth context
+            userLoginHandler({
+                email: authData.email,
+                accessToken: authData.accessToken
+            });
             navigate('/');
         } catch (error) {
-            console.error('Registration failed:', error);
+            setError('Registration failed. Please try again.');
+            console.error('Registration error:', error);
         }
     };
 
     return (
         <div className="auth-container">
             <form className="auth-form" onSubmit={registerHandler}>
-                <h1>Register</h1>
+                <h2>Register</h2>
+                
+                {error && <p className="error-message">{error}</p>}
                 
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
@@ -78,3 +87,5 @@ export default function Register() {
         </div>
     );
 }
+
+export default Register;

@@ -1,6 +1,8 @@
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
+import MarkerComponent from '../marker/Marker';
 import '../../../public/styles/Map.css';
 
 // Fix for the default marker icon
@@ -11,20 +13,13 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-function MapEvents({ onMapClick }) {
-  useMapEvents({
-    click: (e) => {
-      onMapClick(e.latlng);
-    },
-  });
-  return null;
-}
-
 function Map() {
   const [markers, setMarkers] = useState([]);
+  const location = useLocation();
+  const isMapRoute = location.pathname === '/map';
 
-  const handleMapClick = (latlng) => {
-    setMarkers([latlng]);
+  const handleMarkerAdd = (newMarker) => {
+    setMarkers([...markers, newMarker]);
   };
 
   return (
@@ -32,12 +27,17 @@ function Map() {
       <MapContainer 
         center={[51.505, -0.09]} 
         zoom={13}
+        // Disable zoom and drag on home page
+        zoomControl={isMapRoute}
+        dragging={isMapRoute}
+        doubleClickZoom={isMapRoute}
+        scrollWheelZoom={isMapRoute}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <MapEvents onMapClick={handleMapClick} />
+        {isMapRoute && <MarkerComponent onMarkerAdd={handleMarkerAdd} />}
         {markers.map((position, idx) => (
           <Marker 
             key={idx} 
