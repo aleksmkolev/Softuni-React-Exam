@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 import L from 'leaflet';
 import MarkerComponent from '../marker/Marker';
 import markerService from '../../services/markerService';
@@ -18,6 +19,7 @@ function Map() {
   const [markers, setMarkers] = useState([]);
   const location = useLocation();
   const isMapRoute = location.pathname === '/map';
+  const { accessToken } = useContext(UserContext);
 
   useEffect(() => {
     if (isMapRoute) {
@@ -38,6 +40,11 @@ function Map() {
 
   return (
     <div className="map-box">
+      {isMapRoute && !accessToken && (
+        <div className="map-overlay-message">
+          Please log in to add markers to the map
+        </div>
+      )}
       <MapContainer 
         center={[51.505, -0.09]} 
         zoom={13}
@@ -51,7 +58,7 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {isMapRoute && <MarkerComponent onMarkerAdd={handleMarkerAdd} />}
+        {isMapRoute && accessToken && <MarkerComponent onMarkerAdd={handleMarkerAdd} />}
         {markers.map((position, idx) => (
           <Marker 
             key={idx} 

@@ -1,8 +1,8 @@
 import { Marker, useMapEvents } from 'react-leaflet';
 import { Icon } from 'leaflet';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 import markerService from '../../services/markerService';
-import authService from '../../services/authService';
 import MarkerPrompt from './MarkerPrompt';
 
 export default function MarkerComponent({ onMarkerAdd }) {
@@ -10,6 +10,7 @@ export default function MarkerComponent({ onMarkerAdd }) {
     const [showPrompt, setShowPrompt] = useState(false);
     const [promptPosition, setPromptPosition] = useState({ x: 0, y: 0 });
     const [showAbove, setShowAbove] = useState(true);
+    const { accessToken } = useContext(UserContext);
 
     const defaultIcon = new Icon({
         iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
@@ -23,14 +24,10 @@ export default function MarkerComponent({ onMarkerAdd }) {
 
     const map = useMapEvents({
         click: (e) => {
-            // Only proceed if user is authenticated
-            if (!authService.isAuthenticated()) {
-                return;
-            }
+            if (!accessToken) return;
 
             const point = map.latLngToContainerPoint(e.latlng);
             
-            // Check if there's enough space above the marker
             const spaceAbove = point.y > 25;
             setShowAbove(spaceAbove);
 
@@ -44,7 +41,7 @@ export default function MarkerComponent({ onMarkerAdd }) {
     });
 
     const handleSaveMarker = async () => {
-        if (tempMarker) {
+        if (tempMarker && accessToken) {
             try {
                 await markerService.create(tempMarker);
                 onMarkerAdd(tempMarker);
@@ -61,8 +58,7 @@ export default function MarkerComponent({ onMarkerAdd }) {
         setTempMarker(null);
     };
 
-    // Don't render anything if user is not authenticated
-    if (!authService.isAuthenticated()) {
+    if (!accessToken) {
         return null;
     }
 
