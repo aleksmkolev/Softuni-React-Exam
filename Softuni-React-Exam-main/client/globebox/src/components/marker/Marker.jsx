@@ -6,7 +6,8 @@ import markerService from '../../services/markerService';
 import MarkerForm from './MarkerForm';
 
 export default function MarkerComponent({ onMarkerAdd }) {
-    const [tempMarker, setTempMarker] = useState(null);
+    const [showForm, setShowForm] = useState(false);
+    const [position, setPosition] = useState(null);
     const { accessToken } = useContext(UserContext);
 
     const defaultIcon = new Icon({
@@ -20,52 +21,49 @@ export default function MarkerComponent({ onMarkerAdd }) {
     });
 
     useMapEvents({
-        click: (e) => {
+        click(e) {
             if (!accessToken) return;
-            setTempMarker({
-                position: e.latlng,
-                popup: true
-            });
-        },
+            setPosition(e.latlng);
+            setShowForm(true);
+        }
     });
 
+    const handleClose = () => {
+        setShowForm(false);
+        setPosition(null);
+    };
+
     const handleSaveMarker = async (formData) => {
-        if (tempMarker && accessToken) {
+        if (position && accessToken) {
             try {
                 const markerData = {
                     ...formData,
-                    lat: tempMarker.position.lat,
-                    lng: tempMarker.position.lng,
+                    lat: position.lat,
+                    lng: position.lng,
                 };
                 const savedMarker = await markerService.create(markerData, accessToken);
                 onMarkerAdd(savedMarker);
-                setTempMarker(null);
+                handleClose();
             } catch (error) {
                 console.error('Failed to save marker:', error);
             }
         }
     };
 
-    const handleCancelMarker = () => {
-        setTempMarker(null);
-    };
-
     if (!accessToken) {
         return null;
     }
 
-    return (
-        <>
-            {tempMarker && (
-                <Marker position={tempMarker.position} icon={defaultIcon}>
-                    <Popup closeButton={false}>
-                        <MarkerForm 
-                            onSave={handleSaveMarker}
-                            onCancel={handleCancelMarker}
-                        />
-                    </Popup>
-                </Marker>
-            )}
-        </>
-    );
+    return showForm && position ? (
+        <Marker position={position} icon={defaultIcon}>
+            <Popup closeButton={false}>
+                <MarkerForm 
+                    position={position}
+                    onMarkerAdd={onMarkerAdd}
+                    onClose={handleClose}
+                    onSave={handleSaveMarker}
+                />
+            </Popup>
+        </Marker>
+    ) : null;
 }

@@ -71,7 +71,11 @@ export default function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {isMapRoute && accessToken && <MarkerComponent onMarkerAdd={handleMarkerAdd} />}
+        {isMapRoute && accessToken && (
+          <MarkerComponent 
+            onMarkerAdd={handleMarkerAdd}
+          />
+        )}
         {markers.map((marker, idx) => (
           marker.lat && marker.lng ? (
             <Marker 
