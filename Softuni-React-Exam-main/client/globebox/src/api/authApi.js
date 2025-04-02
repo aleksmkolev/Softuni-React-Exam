@@ -6,7 +6,15 @@ const baseUrl = 'http://localhost:3030/users';
 
 export const useLogin = () => {
     const login = async (email, password) => {
-        return await request.post(`${baseUrl}/login`, { email, password });
+        try {
+            return await request.post(`${baseUrl}/login`, {
+                email,
+                password
+            });
+        } catch (error) {
+            console.error('Login error:', error);
+            throw error;
+        }
     }
 
     return {
@@ -15,8 +23,17 @@ export const useLogin = () => {
 }
 
 export const useRegister = () => {
-    const register = async (email, username, password) => {
-        return await request.post(`${baseUrl}/register`, { email, username, password });
+    const register = async (email, password) => {
+        try {
+            return await request.post(`${baseUrl}/register`, {
+                email,
+                password,
+                username: email // Use email as username if not provided
+            });
+        } catch (error) {
+            console.error('Register error:', error);
+            throw error;
+        }
     }
 
     return {

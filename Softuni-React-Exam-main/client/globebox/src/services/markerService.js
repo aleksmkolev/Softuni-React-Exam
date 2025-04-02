@@ -1,6 +1,6 @@
 import request from '../utils/request';
 
-const baseUrl = 'http://localhost:3030/data/locations';
+const baseUrl = 'http://localhost:3030/jsonstore/markers';
 
 const markerService = {
     async create(markerData, token) {
@@ -28,7 +28,9 @@ const markerService = {
 
     async getAll() {
         try {
-            return await request.get(baseUrl);
+            const response = await request.get(baseUrl);
+            // Convert object of objects to array and handle null/empty response
+            return response ? Object.values(response) : [];
         } catch (error) {
             console.error('Error fetching markers:', error);
             return [];

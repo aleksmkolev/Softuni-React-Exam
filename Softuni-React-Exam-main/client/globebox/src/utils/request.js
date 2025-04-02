@@ -15,25 +15,13 @@ const request = async (method, url, data, options = {}) => {
     }
 
     const response = await fetch(url, options);
-    
-    // Handle error responses
-    if (!response.ok) {
-        let errorMessage;
-        try {
-            const errorData = await response.json();
-            errorMessage = errorData.message || 'An error occurred';
-        } catch {
-            errorMessage = response.statusText || `HTTP error! status: ${response.status}`;
-        }
-        throw new Error(errorMessage);
+    const responseContentType = response.headers.get('Content-Type');
+    if (!responseContentType) {
+        return;
     }
 
-    // For successful responses
-    try {
-        return await response.json();
-    } catch {
-        return null; // Return null for non-JSON responses
-    }
+    const result = await response.json();
+    return result;
 }
 
 export default {
