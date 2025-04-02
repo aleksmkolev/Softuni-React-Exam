@@ -11,14 +11,14 @@ function Catalog() {
   const [likes, setLikes] = useState({});
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { accessToken, email } = useContext(UserContext);
+  const { accessToken, email, _id } = useContext(UserContext);
   const { getAllMarkers } = useMarkers();
 
   useEffect(() => {
     const fetchMarkers = async () => {
       try {
         const data = await getAllMarkers();
-        console.log('Markers:', data);
+        console.log('Marker data:', data);
         setMarkers(data);
         
         // Fetch likes for each marker
@@ -76,6 +76,12 @@ function Catalog() {
     }
   };
 
+  const isOwner = (marker) => {
+    console.log('User ID:', _id);
+    console.log('Marker owner:', marker._ownerId);
+    return marker._ownerId === _id;
+  };
+
   if (error) {
     return <div className="error">Error loading markers: {error}</div>;
   }
@@ -102,7 +108,7 @@ function Catalog() {
                   ❤️ {likes[marker._id]?.count || 0}
                 </button>
               </div>
-              {accessToken && (
+              {accessToken && isOwner(marker) && (
                 <>
                   <button 
                     className="edit-btn"
