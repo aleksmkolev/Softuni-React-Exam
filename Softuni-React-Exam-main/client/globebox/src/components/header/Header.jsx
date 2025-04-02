@@ -3,16 +3,13 @@ import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import '../../../public/styles/Header.css';
-import authService from '../../services/authService';
 
 function Header() {
     const { accessToken, email, userLogoutHandler } = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        userLogoutHandler();
-        // Clear local storage
-        authService.logout();
+        userLogoutHandler();    
         navigate('/');
     };
 

@@ -15,6 +15,11 @@
   padding: 15px;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  color: black;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
 }
 
 .marker-card img {
@@ -22,4 +27,139 @@
   height: 200px;
   object-fit: cover;
   border-radius: 4px;
-} 
+  margin-bottom: 15px;
+}
+
+.marker-card h3 {
+  color: black;
+  margin-bottom: 10px;
+  font-size: 1.4em;
+}
+
+.marker-card p {
+  color: black;
+  margin: 5px 0;
+}
+
+.marker-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  width: 100%;
+  background-color: #f8f8f8; /* Debug background */
+}
+
+.auth-message {
+  text-align: center;
+  color: #666;
+  margin-top: auto;
+  padding: 10px;
+}
+
+/* Add these styles for the form */
+.catalog-form {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(100, 108, 255, 0.3);
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.catalog-form h2 {
+    color: #646cff;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 90%;
+    padding: 0.8rem;
+    border: 1px solid rgba(100, 108, 255, 0.2);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+    display: block;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #646cff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.save-btn,
+.cancel-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.save-btn {
+    background: #646cff;
+    color: white;
+}
+
+.save-btn:hover {
+    background: #535bf2;
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background: #ff4646;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: #ff4646;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: center;
+}

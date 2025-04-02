@@ -1,8 +1,9 @@
 import { Link, useNavigate } from 'react-router'
 import { useActionState, useContext } from 'react'
+
+import '../../../public/styles/Login.css'
 import { useLogin } from '../../api/authApi';
 import { UserContext } from '../../contexts/UserContext';
-import '../../../public/styles/Login.css'
 
 export default function Login() {
     const navigate = useNavigate(); 
@@ -13,12 +14,12 @@ export default function Login() {
         const {email, password} = Object.fromEntries(formData); 
         const authData = await login(email, password);
         userLoginHandler(authData);
-        navigate('/map');
+        navigate('/box');
         return authData;
     };
 
     const [, loginAction, isPending] = useActionState(loginHandler, {email: '', password: ''})
-    
+
     return (
         <div className="auth-container">
             <form className="auth-form" action={loginAction}>
@@ -48,7 +49,7 @@ export default function Login() {
 
                 <button 
                     type="submit" 
-                    className="submit-btn" 
+                    className="submit-btn"
                     disabled={isPending}
                 >
                     Login

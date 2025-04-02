@@ -9,7 +9,7 @@ import Register from './components/register/Register'
 import { UserProvider } from './contexts/UserContextInstance'
 import Home from './components/home/Home'
 import Catalog from './components/catalog/catalog'
-
+import MarkerEdit from './components/marker/MarkerEditForm'
 
 export default function App() {
   return (
@@ -24,6 +24,7 @@ export default function App() {
               <Route path="/box" element={<Catalog />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/edit/:markerId" element={<MarkerEdit />} />
             </Routes>
           </main>
           <Footer />  

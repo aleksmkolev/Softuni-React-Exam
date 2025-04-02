@@ -1,13 +1,14 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from '../../contexts/UserContext';
-import authService from '../../services/authService';
+import { useRegister } from '../../api/authApi';
 import '../../../public/styles/Register.css';
 
 function Register() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { userLoginHandler } = useContext(UserContext);
+    const { register } = useRegister();
 
     const registerHandler = async (e) => {
         e.preventDefault();
@@ -21,9 +22,7 @@ function Register() {
         }
 
         try {
-            // Register and get auth data
-            const authData = await authService.register(email, password);
-            // Update the auth context
+            const authData = await register(email, password);
             userLoginHandler({
                 email: authData.email,
                 accessToken: authData.accessToken

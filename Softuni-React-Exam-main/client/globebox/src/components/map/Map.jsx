@@ -15,25 +15,41 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-function Map() {
+export default function Map() {
   const [markers, setMarkers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const isMapRoute = location.pathname === '/map';
   const { accessToken } = useContext(UserContext);
 
   useEffect(() => {
-    if (isMapRoute) {
-      markerService.getAll()
-        .then(loadedMarkers => {
-          setMarkers(loadedMarkers);
-        })
-        .catch(error => console.error('Failed to load markers:', error));
-    }
-  }, [isMapRoute]);
+    const fetchMarkers = async () => {
+      try {
+        const data = await markerService.getAll();
+        // Filter out markers without valid coordinates
+        const validMarkers = data.filter(marker => 
+          typeof marker.lat === 'number' && 
+          typeof marker.lng === 'number' &&
+          !isNaN(marker.lat) && 
+          !isNaN(marker.lng)
+        );
+        setMarkers(validMarkers);
+      } catch (error) {
+        console.error('Error fetching markers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMarkers();
+  }, []);
 
   const handleMarkerAdd = (newMarker) => {
     setMarkers(prevMarkers => [...prevMarkers, newMarker]);
   };
+
+  if (loading) {
+    return <div>Loading map...</div>;
+  }
 
   return (
     <div className="map-box">
@@ -57,29 +73,29 @@ function Map() {
         />
         {isMapRoute && accessToken && <MarkerComponent onMarkerAdd={handleMarkerAdd} />}
         {markers.map((marker, idx) => (
-          <Marker 
-            key={idx} 
-            position={{ lat: marker.lat, lng: marker.lng }}
-          >
-            <Popup>
-              <div className="marker-info">
-                <h3>{marker.name}</h3>
-                <p>{marker.description}</p>
-                {marker.imageUrl && (
-                  <img 
-                    src={marker.imageUrl} 
-                    alt={marker.name}
-                    style={{ maxWidth: '200px', marginTop: '10px' }}
-                  />
-                )}
-                <p>Rating: {marker.rating}/10</p>
-              </div>
-            </Popup>
-          </Marker>
+          marker.lat && marker.lng ? (
+            <Marker 
+              key={idx} 
+              position={{ lat: marker.lat, lng: marker.lng }}
+            >
+              <Popup>
+                <div className="marker-info">
+                  <h3>{marker.name}</h3>
+                  <p>{marker.description}</p>
+                  {marker.imageUrl && (
+                    <img 
+                      src={marker.imageUrl} 
+                      alt={marker.name}
+                      style={{ maxWidth: '200px', marginTop: '10px' }}
+                    />
+                  )}
+                  <p>Rating: {marker.rating}/10</p>
+                </div>
+              </Popup>
+            </Marker>
+          ) : null
         ))}
       </MapContainer>
     </div>
   );
 }
-
-export default Map;
