@@ -163,3 +163,34 @@
     margin-top: 0.5rem;
     text-align: center;
 }
+
+.likes-section {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+.like-btn {
+    background: none;
+    border: 1px solid #646cff;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #646cff;
+}
+
+.like-btn:hover:not(:disabled) {
+    background: rgba(100, 108, 255, 0.1);
+}
+
+.like-btn.liked {
+    background: #646cff;
+    color: white;
+    cursor: default;
+}
+
+.like-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}

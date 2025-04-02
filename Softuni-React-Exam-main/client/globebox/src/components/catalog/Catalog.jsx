@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import markerService from '../../services/markerService';
-import { useContext } from 'react';
+import likeService from '../../services/likeService';
 import { UserContext } from '../../contexts/UserContext';
 import './catalog.css';
 
 function Catalog() {
   const [markers, setMarkers] = useState([]);
+  const [likes, setLikes] = useState({});
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { accessToken } = useContext(UserContext);
+  const { accessToken, email } = useContext(UserContext);
 
   useEffect(() => {
     const fetchMarkers = async () => {
@@ -17,6 +18,17 @@ function Catalog() {
         const data = await markerService.getAll();
         console.log('Markers:', data); // Debug log
         setMarkers(data);
+        
+        // Fetch likes for each marker
+        const likesData = {};
+        for (const marker of data) {
+          const markerLikes = await likeService.getLikesByMarkerId(marker._id);
+          likesData[marker._id] = {
+            count: markerLikes.length,
+            hasLiked: accessToken ? await likeService.hasUserLiked(marker._id, email) : false
+          };
+        }
+        setLikes(likesData);
       } catch (error) {
         setError(error.message);
         console.error('Error fetching markers:', error);
@@ -24,7 +36,7 @@ function Catalog() {
     };
 
     fetchMarkers();
-  }, []);
+  }, [accessToken, email]);
 
   const handleEdit = (markerId) => {
     navigate(`/edit/${markerId}`);
@@ -42,8 +54,24 @@ function Catalog() {
     }
   };
 
-  const isAuthenticated = () => {
-    return !!accessToken;
+  const handleLike = async (markerId) => {
+    if (!accessToken) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      await likeService.like(markerId, email);
+      setLikes(prev => ({
+        ...prev,
+        [markerId]: {
+          count: prev[markerId].count + 1,
+          hasLiked: true
+        }
+      }));
+    } catch (error) {
+      console.error('Error liking marker:', error);
+    }
   };
 
   if (error) {
@@ -62,24 +90,33 @@ function Catalog() {
             {(marker.imageUrl || marker.mainImageUrl) && 
               <img src={marker.imageUrl || marker.mainImageUrl} alt={marker.name} />
             }
-            {isAuthenticated() ? (
-              <div className="marker-actions">
+            <div className="marker-actions">
+              <div className="likes-section">
                 <button 
-                  className="edit-btn"
-                  onClick={() => handleEdit(marker._id)}
+                  className={`like-btn ${likes[marker._id]?.hasLiked ? 'liked' : ''}`}
+                  onClick={() => handleLike(marker._id)}
+                  disabled={likes[marker._id]?.hasLiked}
                 >
-                  Edit
-                </button>
-                <button 
-                  className="delete-btn"
-                  onClick={() => handleDelete(marker._id)}
-                >
-                  Delete
+                  ❤️ {likes[marker._id]?.count || 0}
                 </button>
               </div>
-            ) : (
-              <p className="auth-message">Login to edit/delete</p>
-            )}
+              {accessToken && (
+                <>
+                  <button 
+                    className="edit-btn"
+                    onClick={() => handleEdit(marker._id)}
+                  >
+                    Edit
+                  </button>
+                  <button 
+                    className="delete-btn"
+                    onClick={() => handleDelete(marker._id)}
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         ))}
       </div>

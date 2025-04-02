@@ -76,7 +76,13 @@ const markerService = {
 
     async getById(markerId) {
         try {
-            return await request.get(`${baseUrl}/${markerId}`);
+            const response = await request.get(`${baseUrl}/${markerId}`);
+            // Convert lat/lng to numbers and provide defaults
+            return {
+                ...response,
+                lat: Number(response.lat) || 0,
+                lng: Number(response.lng) || 0
+            };
         } catch (error) {
             console.error('Error fetching marker:', error);
             throw error;
