@@ -24,6 +24,7 @@ function Header() {
         <nav className="nav-links">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/map" className="nav-link">Map</Link>
+          <Link to="/box" className="nav-link">Box</Link>
           
           {!accessToken ? (
             <>

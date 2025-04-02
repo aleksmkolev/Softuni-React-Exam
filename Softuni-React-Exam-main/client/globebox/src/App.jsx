@@ -8,6 +8,7 @@ import Login from './components/login/Login'
 import Register from './components/register/Register'
 import { UserProvider } from './contexts/UserContextInstance'
 import Home from './components/home/Home'
+import Catalog from './components/catalog/catalog'
 
 
 export default function App() {
@@ -20,11 +21,12 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/map" element={<Map />} />
+              <Route path="/box" element={<Catalog />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Routes>
           </main>
-          <Footer />
+          <Footer />  
         </div>
       </BrowserRouter>
     </UserProvider>
