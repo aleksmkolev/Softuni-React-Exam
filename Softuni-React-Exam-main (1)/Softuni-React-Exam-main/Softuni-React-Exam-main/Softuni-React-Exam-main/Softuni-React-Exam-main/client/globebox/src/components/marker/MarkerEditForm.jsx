@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import markerService from '../../services/markerService';
+import { useState, useEffect } from 'react';
+import { useEditMarker, useMarker } from '../../api/globeApi';
 import './MarkerEditForm.css';
 
 export default function MarkerEditForm() {
     const { markerId } = useParams();
     const navigate = useNavigate();
-    const { accessToken } = useContext(UserContext);
-    const [marker, setMarker] = useState({
+    const { editMarker } = useEditMarker();
+    const { marker } = useMarker(markerId);
+    const [formData, setFormData] = useState({
         name: '',
         description: '',
         imageUrl: '',
@@ -18,34 +18,22 @@ export default function MarkerEditForm() {
     });
 
     useEffect(() => {
-        const fetchMarker = async () => {
-            try {
-                const data = await markerService.getById(markerId);
-                setMarker({
-                    ...data,
-                    lat: Number(data.lat) || 0,
-                    lng: Number(data.lng) || 0
-                });
-            } catch (error) {
-                console.error('Error fetching marker:', error);
-            }
-        };
-        fetchMarker();
-    }, [markerId]);
+        if (marker) {
+            setFormData({
+                name: marker.name || '',
+                description: marker.description || '',
+                imageUrl: marker.imageUrl || '',
+                rating: marker.rating || '5',
+                lat: Number(marker.lat) || 0,
+                lng: Number(marker.lng) || 0
+            });
+        }
+    }, [marker]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const formData = {
-                name: marker.name,
-                description: marker.description,
-                imageUrl: marker.imageUrl,
-                rating: marker.rating,
-                lat: marker.lat,
-                lng: marker.lng
-            };
-
-            await markerService.edit(markerId, formData, accessToken);
+            await editMarker(markerId, formData);
             navigate('/box');
         } catch (error) {
             console.error('Error updating marker:', error);
@@ -54,7 +42,7 @@ export default function MarkerEditForm() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setMarker(prev => ({
+        setFormData(prev => ({
             ...prev,
             [name]: value
         }));
@@ -71,7 +59,7 @@ export default function MarkerEditForm() {
                         type="text"
                         id="name"
                         name="name"
-                        value={marker.name}
+                        value={formData.name}
                         onChange={handleChange}
                         placeholder="Enter marker name"
                         required
@@ -83,7 +71,7 @@ export default function MarkerEditForm() {
                     <textarea
                         id="description"
                         name="description"
-                        value={marker.description}
+                        value={formData.description}
                         onChange={handleChange}
                         placeholder="Enter description"
                         required
@@ -96,7 +84,7 @@ export default function MarkerEditForm() {
                         type="url"
                         id="imageUrl"
                         name="imageUrl"
-                        value={marker.imageUrl}
+                        value={formData.imageUrl}
                         onChange={handleChange}
                         placeholder="Enter image URL"
                         required
@@ -108,7 +96,7 @@ export default function MarkerEditForm() {
                     <select
                         id="rating"
                         name="rating"
-                        value={marker.rating}
+                        value={formData.rating}
                         onChange={handleChange}
                         required
                     >

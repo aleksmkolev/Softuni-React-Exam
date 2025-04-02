@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import L from 'leaflet';
 import MarkerComponent from '../marker/Marker';
-import markerService from '../../services/markerService';
+import { getAllMarkers } from '../../api/globeApi';
 import '../../../public/styles/Map.css';
 
 // Fix for the default marker icon
@@ -25,7 +25,7 @@ export default function Map() {
   useEffect(() => {
     const fetchMarkers = async () => {
       try {
-        const data = await markerService.getAll();
+        const data = await getAllMarkers();
         // Filter out markers without valid coordinates
         const validMarkers = data.filter(marker => 
           typeof marker.lat === 'number' && 

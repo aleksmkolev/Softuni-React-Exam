@@ -2,7 +2,7 @@ import { Marker, useMapEvents, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useState, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import markerService from '../../services/markerService';
+import { createMarker } from '../../api/globeApi';
 import MarkerForm from './MarkerForm';
 
 export default function MarkerComponent({ onMarkerAdd }) {
@@ -41,7 +41,7 @@ export default function MarkerComponent({ onMarkerAdd }) {
                     lat: position.lat,
                     lng: position.lng,
                 };
-                const savedMarker = await markerService.create(markerData, accessToken);
+                const savedMarker = await createMarker(markerData, accessToken);
                 onMarkerAdd(savedMarker);
                 handleClose();
             } catch (error) {

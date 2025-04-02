@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import markerService from '../../services/markerService';
+import { createMarker } from '../../api/globeApi';
 import '../../../public/styles/Login.css';
 
 export default function MarkerForm({ onMarkerAdd, position = { lat: 0, lng: 0 }, onClose }) {
@@ -17,7 +17,7 @@ export default function MarkerForm({ onMarkerAdd, position = { lat: 0, lng: 0 },
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const savedMarker = await markerService.create(marker, accessToken);
+            const savedMarker = await createMarker(marker, accessToken);
             onMarkerAdd(savedMarker);
             onClose();
         } catch (error) {

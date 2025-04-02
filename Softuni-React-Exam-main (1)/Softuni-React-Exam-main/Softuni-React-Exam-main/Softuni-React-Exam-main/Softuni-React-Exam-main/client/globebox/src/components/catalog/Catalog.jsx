@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import markerService from '../../services/markerService';
+import { useMarkers } from '../../api/globeApi';
 import likeService from '../../services/likeService';
+import { deleteMarker } from '../../api/globeApi';
 import { UserContext } from '../../contexts/UserContext';
 import './catalog.css';
 
@@ -11,12 +12,13 @@ function Catalog() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { accessToken, email } = useContext(UserContext);
+  const { getAllMarkers } = useMarkers();
 
   useEffect(() => {
     const fetchMarkers = async () => {
       try {
-        const data = await markerService.getAll();
-        console.log('Markers:', data); // Debug log
+        const data = await getAllMarkers();
+        console.log('Markers:', data);
         setMarkers(data);
         
         // Fetch likes for each marker
@@ -36,7 +38,7 @@ function Catalog() {
     };
 
     fetchMarkers();
-  }, [accessToken, email]);
+  }, [accessToken, email, getAllMarkers]);
 
   const handleEdit = (markerId) => {
     navigate(`/edit/${markerId}`);
@@ -45,7 +47,7 @@ function Catalog() {
   const handleDelete = async (markerId) => {
     if (window.confirm('Are you sure you want to delete this marker?')) {
       try {
-        await markerService.delete(markerId, accessToken);
+        await deleteMarker(markerId, accessToken);
         setMarkers(markers.filter(marker => marker._id !== markerId));
       } catch (error) {
         setError('Failed to delete marker');
@@ -122,6 +124,6 @@ function Catalog() {
       </div>
     </div>
   );
-}
+};
 
 export default Catalog;

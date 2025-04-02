@@ -8,7 +8,7 @@ import Login from './components/login/Login'
 import Register from './components/register/Register'
 import { UserProvider } from './contexts/UserContextInstance'
 import Home from './components/home/Home'
-import Catalog from './components/catalog/catalog'
+import Catalog from './components/catalog/Catalog'
 import MarkerEdit from './components/marker/MarkerEditForm'
 
 export default function App() {
