@@ -15,9 +15,6 @@ export default function Navbar() {
 
     return (
         <nav className="navbar">
-            <div className="nav-brand">
-                <Link to="/">GlobeBox</Link>
-            </div>
             <div className="nav-links">
                 {isAuthenticated ? (
                     <>
@@ -30,6 +27,9 @@ export default function Navbar() {
                         <Link to="/register" className="nav-link">Register</Link>
                     </>
                 )}
+            </div>
+            <div className="nav-brand">
+                <Link to="/">GlobeBox</Link>
             </div>
         </nav>
     );

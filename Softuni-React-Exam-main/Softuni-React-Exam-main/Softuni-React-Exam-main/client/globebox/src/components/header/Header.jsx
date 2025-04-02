@@ -16,7 +16,7 @@ function Header() {
     return (
       <header className="app-header">
         <Link to="/" className="logo-link">
-          <h1>GlobeBox Map</h1>
+          <h1>GlobeBox</h1>
         </Link>
         <nav className="nav-links">
           <Link to="/" className="nav-link">Home</Link>

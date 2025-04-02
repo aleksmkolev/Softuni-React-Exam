@@ -11,6 +11,7 @@
 
 .logo-link {
   text-decoration: none;
+  margin-left: 30px;
 }
 
 .app-header h1 {
@@ -27,9 +28,12 @@
 }
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: center;
+  padding: 1rem 0;
+  position: relative;
 }
+
 .nav-link {
   color: #fff;
   text-decoration: none;
@@ -38,10 +42,22 @@
   padding: 0.5rem 1rem;
   border-radius: 4px;
   transition: all 0.3s ease;
+  position: relative;
 }
 .nav-link:hover {
   color: #646cff;
   background-color: rgba(100, 108, 255, 0.1);
+}
+
+.nav-link:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1.5rem;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .active-link {

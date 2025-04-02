@@ -8,13 +8,13 @@ export default function Home() {
             <div className="home-content">
                 <div className="text-section">
                     <h1 className="home-title">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit
+                        GlobeBox is a interactive map of the world
                     </h1>
                     <p className="home-description">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        User can see the world map and interact with it. Set markers on the map and see the information, pictures of other users. They can also like and see other user ratings.
                     </p>
-                    <Link to="/" className="explore-button">
-                        Explore More
+                    <Link to="/box" className="explore-button">
+                        Explore Box
                     </Link>
                 </div>
                 <div className="map-section">
