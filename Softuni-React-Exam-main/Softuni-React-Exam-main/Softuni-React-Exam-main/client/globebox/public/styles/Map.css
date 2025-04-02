@@ -30,9 +30,18 @@
   }
 
   .leaflet-popup-content-wrapper {
-    padding: 0;
-    border-radius: 8px;
-    overflow: hidden;
+    background: rgba(26, 26, 26, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(100, 108, 255, 0.3) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .leaflet-popup-content {
+    margin: 0 !important;
+    padding: 1.5rem !important;
+    min-width: 250px !important;
+    color: white !important;
   }
 
   .overlay {
@@ -103,50 +112,59 @@
   }
 
   .marker-info {
-    padding: 10px;
-    max-width: 250px;
+    text-align: center;
+    padding: 0;
   }
 
   .marker-info h3 {
-    margin: 0 0 8px 0;
-    font-size: 1.1rem;
-    color: #333;
+    color: #646cff !important;
+    margin: 0 0 1rem 0 !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
   }
 
   .marker-info p {
-    margin: 8px 0;
-    color: #666;
+    color: #fff !important;
+    margin: 0.5rem 0 !important;
+    font-size: 0.9rem !important;
   }
 
   .marker-info img {
-    width: 100%;
-    height: auto;
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin: 8px 0;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 150px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    margin: 1rem 0 !important;
+    border: 1px solid rgba(100, 108, 255, 0.2) !important;
+  }
+
+  /* Style the popup tip */
+  .leaflet-popup-tip {
+    background: rgba(26, 26, 26, 0.8) !important;
+    border: 1px solid rgba(100, 108, 255, 0.3) !important;
   }
 
   /* Style the close button */
   .leaflet-popup-close-button {
-    font-size: 20px !important;  /* Bigger X */
-    width: 30px !important;      /* Larger clickable area */
+    font-size: 24px !important;
+    width: 30px !important;
     height: 30px !important;
-    padding: 8px !important;
-    color: #333 !important;      /* Darker color */
+    color: #646cff !important;
     font-weight: bold !important;
-    right: 5px !important;       /* Adjust position */
+    right: 5px !important;
     top: 5px !important;
-    background: rgba(255, 255, 255, 0.8) !important; /* Semi-transparent background */
-    border-radius: 50% !important; /* Make it circular */
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 50% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     transition: all 0.2s ease !important;
+    border: 1px solid rgba(100, 108, 255, 0.2) !important;
   }
 
   .leaflet-popup-close-button:hover {
-    color: #ff4444 !important;   /* Red color on hover */
-    background: white !important;
-    transform: scale(1.1) !important; /* Slight grow effect */
+    color: #ff4444 !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: scale(1.1) !important;
   }
