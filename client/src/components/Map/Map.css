@@ -1,0 +1,205 @@
+.map-container {
+    width: 100%;
+    height: 70vh;
+    margin: 2rem auto;
+    border-radius: 8px;
+    border: 1px solid rgba(100, 108, 255, 0.2);
+}
+
+/* Popup Form */
+.marker-form {
+    min-width: 200px;
+    padding: 0.8rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 0.8rem;
+    width: 100%;
+    text-align: left;
+}
+
+.form-group input,
+.form-group textarea {
+    width: calc(100% - 8px);
+    padding: 0.4rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(100, 108, 255, 0.2);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.8rem;
+    margin: 0 auto;
+    display: block;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group textarea {
+    height: 50px;
+    resize: none;
+}
+
+.form-group label {
+    color: #646cff;
+    font-size: 0.75rem;
+    margin-bottom: 0.3rem;
+    display: block;
+    text-align: left;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #646cff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.coordinates {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0.6rem 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.coordinates span {
+    position: relative;
+    font-size: 0.55rem;
+    color: #fff;
+}
+
+.coordinates span:first-child::after {
+    content: '';
+    position: absolute;
+    right: -0.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 80%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.submit-btn {
+    width: calc(100% - 8px);
+    padding: 0.4rem;
+    background: #646cff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin: 0.4rem auto 0;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #535bf2;
+    transform: translateY(-1px);
+}
+
+/* Leaflet Popup Overrides */
+.leaflet-popup-content-wrapper {
+    background: #1a1a1a;
+    border-radius: 6px;
+    padding: 0.4rem;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    color: #fff;
+    width: auto !important;
+}
+
+.leaflet-popup-content h3 {
+    color: #646cff;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.leaflet-popup-content p {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.leaflet-popup-content a {
+    color: #646cff;
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.leaflet-popup-tip {
+    background: #1a1a1a;
+}
+
+/* Controls */
+.leaflet-control-zoom a {
+    background: #1a1a1a !important;
+    color: #646cff !important;
+}
+
+.leaflet-control-attribution {
+    background: #1a1a1a !important;
+    font-size: 0.7rem !important;
+}
+
+@media (max-width: 1024px) {
+    .map-container {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-container {
+        width: 90%;
+        margin: 1rem auto;
+    }
+}
+
+.form-group span {
+    color: #646cff;
+    font-size: 2rem;
+    font-family: 'Courier New', monospace;
+    display: block;
+    margin-top: 0.5rem;
+    padding: 0.2rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-group input[type="range"] {
+    width: 100%;
+    display: block;
+}
+
+/* Add these styles for existing markers */
+.marker-popup {
+    padding: 0.5rem;
+    min-width: 200px;
+}
+
+.marker-popup h3 {
+    color: #646cff;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.marker-popup p {
+    margin: 0.3rem 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.marker-popup .rating {
+    color: #646cff;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}

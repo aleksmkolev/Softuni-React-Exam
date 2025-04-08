@@ -1,0 +1,128 @@
+.outer-container {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(rgba(36, 36, 36, 0.9), rgba(36, 36, 36, 0.9)),
+                url('/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.create-container {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.create-container h2 {
+    color: #646cff;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.create-form label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.create-form input,
+.create-form textarea,
+.create-form select {
+    width: 100%;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.create-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.create-form input:focus,
+.create-form textarea:focus,
+.create-form select:focus {
+    outline: none;
+    border-color: #646cff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.create-form input::placeholder,
+.create-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.create-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5rem;
+}
+
+.btn.submit {
+    background: #646cff;
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn.submit:hover {
+    background: #535bf2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
+}
+
+.btn.submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(100, 108, 255, 0.2);
+}
+
+.btn.submit:disabled {
+    background: #4b4b4b;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 768px) {
+    .create-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .outer-container {
+        padding: 1rem;
+    }
+}
