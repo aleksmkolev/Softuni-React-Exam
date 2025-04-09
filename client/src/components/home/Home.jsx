@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import Globe from 'react-globe.gl';
 import './Home.css';
 
-import MarkerArticleItem from './markerArticleItem/MarkerArticleItem';
-
 export default function Home() {
     const globeEl = useRef();
     const markers = [
@@ -17,6 +15,8 @@ export default function Home() {
         if (globeEl.current) {
             globeEl.current.controls().autoRotate = true;
             globeEl.current.controls().autoRotateSpeed = 0.5;
+            globeEl.current.controls().maxDistance = 1000;
+            globeEl.current.controls().minDistance = 100;
 
             const globe = globeEl.current;
             globe.pointOfView({ altitude: 2.5 });
@@ -39,12 +39,13 @@ export default function Home() {
                     pointsMerge={true}
                 />
             </div>
+            
             <div className="feature">
                 <div className="title">
                     <h1>Globe Box</h1>
-                    <Link to="/markers" className="btn see-all-btn">See all markers</Link>
+                    <Link to="/markers" className="see-all-btn">See all markers</Link>
                     <p className="home-description">
-                        An interactive map of the world in which you can set,edit,delete,rate,comment markers.
+                        An interactive map of the world in which you can set, edit, delete, rate, comment markers.
                         Lets explore and share together!
                     </p>
                 </div>

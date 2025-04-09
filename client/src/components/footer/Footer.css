@@ -15,7 +15,12 @@ footer {
     right: 0;
     width: 100%;
     z-index: 1000;
-    height: 40px;
+}
+
+.footer-text {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.9rem;
 }
 
 footer p {
@@ -52,6 +57,18 @@ footer a:hover {
 .footer-social a:hover {
     opacity: 1;
     transform: translateY(-2px);
+}
+
+.footer-link {
+    color: #ff8c00;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #ffa500;
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {

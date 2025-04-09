@@ -6,7 +6,7 @@ import { UserContext } from '../../contexts/UserContext';
 // import styles from './Header.module.css'
 
 export default function Header() {
-    const { username } = useContext(UserContext);
+    const { username, email } = useContext(UserContext);
 
     return (
         <header>
@@ -24,7 +24,8 @@ export default function Header() {
                                 <>
                                     {/* <!-- loggedIn user --> */}
                                     <li> <Link className="map" to="/map">Map</Link></li>
-                                    <li> <Link className="create" to="/markers/create">Add a marker</Link></li>
+                                    <li> <Link className="create" to="/markers/create">Add</Link></li>
+                                    <li><span className="user-email">{email}</span></li>
                                     <li> <Link className="logout" to="/logout">Log out</Link></li>
                                     
                                 </>
