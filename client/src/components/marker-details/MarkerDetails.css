@@ -32,13 +32,11 @@
     flex: 0 0 40%;
 }
 
-.main-img-container {
-    margin-bottom: 1rem;
-}
+
 
 .main-img-container img {
-    width: 100%;
-    border-radius: 8px;
+    width: 30%;
+    border-radius: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -60,7 +58,74 @@
 }
 
 .marker-details-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.marker-content {
+    display: flex;
+    gap: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.image-container {
+    flex: 0 0 450px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.05);
+}
+
+.marker-info {
     flex: 1;
+}
+
+.marker-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.marker-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.marker-rating {
+    display: inline-block;
+    background: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.marker-coordinates {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.marker-coordinates p {
+    margin: 0.5rem 0;
+    color: #666;
 }
 
 .info-container h2 {
@@ -186,6 +251,14 @@
 
     .comments-form textarea {
         width: 100%;
+    }
+
+    .marker-content {
+        flex-direction: column;
+    }
+
+    .image-container {
+        flex: 0 0 auto;
     }
 }
 

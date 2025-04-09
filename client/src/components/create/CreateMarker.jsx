@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 import './CreateMarker.css'
 import { useCreateMarker } from '../../api/mapApi';
@@ -6,6 +7,7 @@ import { useCreateMarker } from '../../api/mapApi';
 export default function CreateMarker() {
     const navigate = useNavigate();
     const { createMarker } = useCreateMarker();
+    const [rating, setRating] = useState(5);
 
     const submitAction = async (formData) => {
         const markerData = Object.fromEntries(formData);
@@ -14,32 +16,91 @@ export default function CreateMarker() {
         navigate(`/markers/${markerId}/details`);
     }
 
+    const handleRatingChange = (e) => {
+        setRating(e.target.value);
+    };
+
     return (
-        <div className="outer-container">
-            <div className="create-container">
-                <h2>Add a Marker</h2>
-                <form className="form create-form" action={submitAction}>   
-                    <label htmlFor="name">Name of Marker:</label>
-                    <input type="text" id="name" name="name" placeholder="Name of Marker" required />
+        <div className="create-marker">
+            <h2>Add a Marker</h2>
+            <form action={submitAction}>   
+                <div className="form-group">
+                    <label htmlFor="name">Name of Marker</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        placeholder="Enter marker name" 
+                        required 
+                    />
+                </div>
 
-                    <label htmlFor="description">Description:</label>
-                    <textarea id="description" name="description" placeholder="Description" required />
+                <div className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <textarea 
+                        id="description" 
+                        name="description" 
+                        placeholder="Enter description" 
+                        required 
+                    />
+                </div>
 
-                    <label htmlFor="image">Image:</label>
-                    <input type="url" id="image" name="image" placeholder="Image" required />
+                <div className="form-group">
+                    <label htmlFor="image">Image URL</label>
+                    <input 
+                        type="url" 
+                        id="image" 
+                        name="image" 
+                        placeholder="Enter image URL" 
+                        required 
+                    />
+                </div>
 
-                    <label htmlFor="rating">Rating:</label>
-                    <input type="number" id="rating" name="rating" placeholder="Rating" required />
+                <div className="form-group rating-group">
+                    <label htmlFor="rating">Rating</label>
+                    <input 
+                        type="range" 
+                        id="rating" 
+                        name="rating" 
+                        min="1" 
+                        max="10" 
+                        value={rating}
+                        onChange={handleRatingChange}
+                        required 
+                    />
+                    <span>{rating}</span>
+                </div>
 
-                    <label htmlFor="latitude">Latitude:</label>
-                    <input type="number" id="latitude" name="latitude" placeholder="Latitude" required />
+                <div className="coordinates-group">
+                    <div className="form-group">
+                        <label htmlFor="latitude">Latitude</label>
+                        <input 
+                            type="number" 
+                            id="latitude" 
+                            name="latitude" 
+                            placeholder="Enter latitude" 
+                            step="any"
+                            required 
+                        />
+                    </div>
 
-                    <label htmlFor="longitude">Longitude:</label>
-                    <input type="number" id="longitude" name="longitude" placeholder="Longitude" required />
+                    <div className="form-group">
+                        <label htmlFor="longitude">Longitude</label>
+                        <input 
+                            type="number" 
+                            id="longitude" 
+                            name="longitude" 
+                            placeholder="Enter longitude" 
+                            step="any"
+                            required 
+                        />
+                    </div>
+                </div>
 
-                    <input type="submit" className="btn submit" value="Add" />
-                </form>
-            </div>
+                <button type="submit" className="submit-btn">
+                    Add Marker
+                </button>
+            </form>
         </div>
     );
 };

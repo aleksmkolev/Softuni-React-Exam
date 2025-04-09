@@ -65,7 +65,7 @@ export const useLatestMarkers = () => {
         const searchParams = new URLSearchParams({
             sortBy: "_createdOn desc",
             pageSize: PAGE_SIZE, 
-            select: "name,country,mainImageUrl,_id",
+            select: "name,description,imageUrl,rating,latitude,longitude,_id",
         })
 
         request.get(`${baseUrl}?${searchParams.toString()}`)
@@ -79,49 +79,44 @@ export const useLatestMarkers = () => {
 
 export const useCreateMarker = () => {
     const { accessToken } = useContext(UserContext);
-    const options = {
-        headers: {
-            'X-Authorization': accessToken,
-            'Content-Type': 'application/json'
-        }
-    };
 
-    const createMarker = async ({name, description, image, rating, latitude, longitude}) => {
+    const createMarker = async (markerData) => {
         if (!accessToken) {
             throw new Error('Authentication required');
         }
-        
-        return request.post(baseUrl, {
-            name, 
-            description, 
-            image, 
-            rating, 
-            latitude, 
-            longitude
-        }, options);
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': accessToken
+            },
+            body: JSON.stringify(markerData)
+        };
+
+        try {
+            const response = await fetch(baseUrl, options);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error creating marker:', error);
+            throw error;
+        }
     };
 
     return {
-        createMarker, 
-    }
+        createMarker,
+    };
 };
 
 export const useEditMarker = () => {
     const {options} = useAuth();
 
-    const editMarker = (markerId, {imageUrl1, imageUrl2, imageUrl3, ...markerData}) => {
-        let imageUrls = [];
-        if(imageUrl1 !== ''){
-            imageUrls.push(imageUrl1);
-        }
-        if(imageUrl2 !== ''){
-            imageUrls.push(imageUrl2);
-        }
-        if(imageUrl3 !== ''){
-            imageUrls.push(imageUrl3);
-        }
+    const editMarker = (markerId, {name, description, image, rating, latitude, longitude}) => {
 
-        return request.put(`${baseUrl}/${markerId}`, {...markerData, imageUrls, _id: markerId}, options);
+        return request.put(`${baseUrl}/${markerId}`, {name, description, image, rating, latitude, longitude, _id: markerId}, options);
     };
 
     return {

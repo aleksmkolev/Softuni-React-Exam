@@ -5,7 +5,7 @@ export default function MarkerArticleItem({
 }) {
 
     return (
-        <article className="marker-article">
+        <article className="marker-article-item">
             <div className="info-container">
                 <h2>{name}</h2>
                 <div className="img-container">

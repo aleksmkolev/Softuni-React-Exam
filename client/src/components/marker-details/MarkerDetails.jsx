@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router'
 import { useContext } from 'react';
-import { v4 as uuid} from 'uuid'
 
 import './markerDetails.css'
 
@@ -20,6 +19,10 @@ export default function MarkerDetails() {
     const { createComment } = useCreateComment();
 
     const isOwner = marker._ownerId === userId;
+
+    // Convert coordinates to numbers and handle potential null/undefined values
+    const latitude = marker?.latitude ? Number(marker.latitude) : null;
+    const longitude = marker?.longitude ? Number(marker.longitude) : null;
 
     const formAction = async (formData) => {
         const commentData = Object.fromEntries(formData);
@@ -48,22 +51,40 @@ export default function MarkerDetails() {
             <div className="details-container">
                 <div className="images-container">
                     <div className="main-img-container">
-                        <img src={marker.mainImageUrl} alt="image or logo of the marker" width="450px" />
+                        <img 
+                            src={marker.image || 'https://placehold.co/450x300?text=No+Image'} 
+                            alt={`${marker.name || 'Marker'}`}
+                            width="450"
+                            onError={(e) => {
+                                e.target.src = 'https://placehold.co/450x300?text=Image+Not+Found';
+                            }}
+                        />
                     </div>
-                    <div className="small-images-container">
-                        {marker.imageUrls?.length > 0
-                            ?
-                            marker.imageUrls.map(image => <img src={image} alt="image from the marker" width="220px" key={uuid()} />)
-                            : null
-                        }
-                    </div>
+                    
                 </div>
                 <div className="marker-details-container">
-                    <div className="info-container">
-                        <h2>{marker.name}</h2>
-                        <p className="location">{marker.country}</p>
-                        <p className="address">{marker.address}</p>
-                        <p className="info">{marker.info}</p>
+                    <div className="marker-content">
+                        <div className="image-container">
+                            <img 
+                                src={marker.image || 'https://placehold.co/450x300?text=No+Image'} 
+                                alt={marker.name || 'Marker'}
+                                onError={(e) => {
+                                    e.target.src = 'https://placehold.co/450x300?text=Image+Not+Found';
+                                }}
+                            />
+                        </div>
+                        
+                        <div className="marker-info">
+                            <h1 className="marker-title">{marker.name}</h1>
+                            <p className="marker-description">{marker.description}</p>
+                            <div className="marker-rating">
+                                Rating: {marker.rating}/10
+                            </div>
+                            <div className="marker-coordinates">
+                                <p>Latitude: {latitude?.toFixed(6) || 'N/A'}</p>
+                                <p>Longitude: {longitude?.toFixed(6) || 'N/A'}</p>
+                            </div>
+                        </div>
                     </div>
 
                     {isOwner

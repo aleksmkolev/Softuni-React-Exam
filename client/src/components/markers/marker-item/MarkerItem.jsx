@@ -7,7 +7,7 @@ export default function MarkerItem({
 }) {
 
     return (
-        <section className="marker-article">
+        <section className="marker-item">
             <div className="main-img-container">
                 <img src={image} alt="park image or logo" width="450px" />
             </div>
