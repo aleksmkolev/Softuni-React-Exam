@@ -1,6 +1,7 @@
 # Globe Box
 
-![image](https://github.com/user-attachments/assets/646b7555-c2e1-4512-8c5d-27a4263d1d6c)
+![image](https://github.com/user-attachments/assets/73635464-82d8-4ce0-b4f6-ec0dff81b205)
+
 
 
 
