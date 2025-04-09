@@ -1,5 +1,8 @@
 # Globe Box
 
+![image](https://github.com/user-attachments/assets/646b7555-c2e1-4512-8c5d-27a4263d1d6c)
+
+
 
 An interactive 3D globe application that allows users to explore, create, and manage location markers worldwide.
 Created for Softuni React Module 
