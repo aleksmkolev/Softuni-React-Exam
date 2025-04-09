@@ -7,18 +7,17 @@ export default function Markers() {
     const {markers} = useMarkers(); 
 
     return (
-        <div id="outer-container" className="outer-container">
-            <h1 className="all-markers">Markers</h1>
-            <div className="search-container">
+        <div className="markers-container">
+            <div className="markers-grid">
+                <h2 className="markers-title">All Markers</h2>
                 
-            </div>
-            <div className="markers-container">
-
-                {markers.length > 0
-                    ? markers.map(marker => <MarkerItem key={marker._id} {...marker} />)
-                    : <h3 className="no-markers" style={{paddingTop: "2em", paddingBottom: "5em", textAlign: "center"}}>No markers yet.</h3>
-                }
-
+                {markers.length > 0 ? (
+                    markers.map(marker => (
+                        <MarkerItem key={marker._id} {...marker} />
+                    ))
+                ) : (
+                    <p className="no-markers">No markers available yet.</p>
+                )}
             </div>
         </div>
     );

@@ -47,10 +47,10 @@ export default function MarkerDetails() {
     }
 
     return (
-        <div className="outer-container">
-            <div className="details-container">
-                <div className="images-container">
-                    <div className="main-img-container">
+        <div className="marker-details-outer-container">
+            <div className="marker-details-card">
+                <div className="marker-details-images">
+                    <div className="marker-details-main-img">
                         <img 
                             src={marker.image || 'https://placehold.co/450x300?text=No+Image'} 
                             alt={`${marker.name || 'Marker'}`}
@@ -60,66 +60,48 @@ export default function MarkerDetails() {
                             }}
                         />
                     </div>
-                    
                 </div>
-                <div className="marker-details-container">
-                    <div className="marker-content">
-                        <div className="image-container">
-                            <img 
-                                src={marker.image || 'https://placehold.co/450x300?text=No+Image'} 
-                                alt={marker.name || 'Marker'}
-                                onError={(e) => {
-                                    e.target.src = 'https://placehold.co/450x300?text=Image+Not+Found';
-                                }}
-                            />
-                        </div>
-                        
-                        <div className="marker-info">
-                            <h1 className="marker-title">{marker.name}</h1>
-                            <p className="marker-description">{marker.description}</p>
-                            <div className="marker-rating">
+                <div className="marker-details-info-container">
+                    <div className="marker-details-content">
+                        <div className="marker-details-info">
+                            <h1 className="marker-details-title">{marker.name}</h1>
+                            <p className="marker-details-description">{marker.description}</p>
+                            <div className="marker-details-rating">
                                 Rating: {marker.rating}/10
                             </div>
-                            <div className="marker-coordinates">
+                            <div className="marker-details-coordinates">
                                 <p>Latitude: {latitude?.toFixed(6) || 'N/A'}</p>
                                 <p>Longitude: {longitude?.toFixed(6) || 'N/A'}</p>
                             </div>
                         </div>
                     </div>
 
-                    {isOwner
-                        ?
-                        <div className="btn-container">
-                                    <Link to={`/markers/${markerId}/edit`} className="btn edit-btn">Edit</Link>
-                            <button onClick={deletemarkerClickHandler} className="btn delete-btn">Delete</button>
+                    {isOwner && (
+                        <div className="marker-details-btn-container">
+                            <Link to={`/markers/${markerId}/edit`} className="marker-details-btn marker-details-edit-btn">Edit</Link>
+                            <button onClick={deletemarkerClickHandler} className="marker-details-btn marker-details-delete-btn">Delete</button>
                         </div>
-                        : null
-                    }
+                    )}
                 </div>
             </div>
-            <div className="comments-container">
+            <div className="marker-details-comments">
                 <h3>Comments:</h3>
-                <div className="comment-container">
-
+                <div className="marker-details-comment-list">
                     {comments.length > 0
                         ? comments.map(comment => <CommentItem key={comment._id} {...comment} />)
-                        : <h2 className="no-comments" style={{ padding: "1em", textAlign: "center", fontSize: "1.8em" }}>No comments yet.</h2>
+                        : <h2 className="marker-details-no-comments">No comments yet.</h2>
                     }
-
                 </div>
 
-                {username
-                    ?
-                    <div className="comment-form-container">
-                        <form className="comments-form" action={formAction}>
+                {username && (
+                    <div className="marker-details-comment-form">
+                        <form className="marker-details-form" action={formAction}>
                             <label htmlFor="comment">Comments about the marker:</label>
                             <textarea id="comment" name="comment" rows="2" cols="100" placeholder="Write your comment here..."></textarea>
-                            <input type="submit" className="btn comment-btn" defaultValue="Add a comment" />
+                            <input type="submit" className="marker-details-btn marker-details-comment-btn" defaultValue="Add a comment" />
                         </form>
                     </div>
-                    : null
-                }
-
+                )}
             </div>
         </div>
     );

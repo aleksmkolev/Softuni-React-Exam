@@ -1,27 +1,35 @@
-import { Link } from 'react-router'
-
+import { Link } from 'react-router-dom'
+import './MarkerItem.css'
 
 
 export default function MarkerItem({
-    _id, name, description, image, rating,
+    _id, name, image,
 }) {
-
     return (
-        <section className="marker-item">
-            <div className="main-img-container">
-                <img src={image} alt="park image or logo" width="450px" />
+        <div className="marker-item-card">
+            <div className="marker-item-img-container">
+                <img 
+                    className="marker-item-img"
+                    src={image || 'https://placehold.co/300x200?text=No+Image'} 
+                    alt={name}
+                    onError={(e) => {
+                        e.target.src = 'https://placehold.co/300x200?text=Image+Not+Found';
+                    }}
+                />
+                <Link to={`/markers/${_id}/details`} className="marker-item-hover-btn">
+                    See Details
+                </Link>
             </div>
-            <div className="marker-details-container">
-                <div className="name-and-location-container">
+            <div className="marker-item-details">
+                <div className="marker-item-title-container">
                     <h2>{name}</h2>
-                    <p className="location">{description}</p>
-                    <p className="address">{rating}</p>
                 </div>
-                
-                <div className="btn-container">
-                    <Link to={`/markers/${_id}/details`} className="btn see-more-btn">See more...</Link>
+                <div className="marker-item-btn-container">
+                    <Link to={`/markers/${_id}/details`} className="marker-item-more-btn">
+                        See more...
+                    </Link>
                 </div>
             </div>
-        </section>
+        </div>
     );
 };
