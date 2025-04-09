@@ -1,5 +1,4 @@
-import { BrowserRouter } from 'react-router-dom'
-import { Route, Routes } from 'react-router'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 
 import Header from './components/header/Header'
@@ -35,33 +34,27 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <UserContext.Provider value={{ ...authData, userLoginHandler, userRegisterHandler, useLogoutHandler }}>
-
-        <Header />
-
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/markers" element={<Markers />} />
-          
-          <Route path="/markers/:markerId/details" element={<MarkerDetails />} />
-          <Route element={<AuthGuard />}>
-            <Route path="/markers/create" element={<CreateMarker />} />
-            <Route path="/markers/:markerId/edit" element={<EditMarker />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/map" element={<Map />} />
-          </Route>
-          <Route element={<GuestGuard />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Route>
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-
-        <Footer />
-
-      </UserContext.Provider>
-    </BrowserRouter>
+    <UserContext.Provider value={{ ...authData, userLoginHandler, userRegisterHandler, useLogoutHandler }}>
+      <Header />
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/markers" element={<Markers />} />
+        
+        <Route path="/markers/:markerId/details" element={<MarkerDetails />} />
+        <Route element={<AuthGuard />}>
+          <Route path="/markers/create" element={<CreateMarker />} />
+          <Route path="/markers/:markerId/edit" element={<EditMarker />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/map" element={<Map />} />
+        </Route>
+        <Route element={<GuestGuard />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+      <Footer />
+    </UserContext.Provider>
   )
 }
 
