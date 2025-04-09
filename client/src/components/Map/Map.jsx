@@ -169,29 +169,35 @@ export default function Map({ onLocationSelect, onSpotAdded }) {
                     refreshMarkers={refreshMarkers}
                 />
                 
-                {/* Display all existing markers */}
-                {Array.isArray(markers) && markers.map(marker => (
-                    <Marker 
-                        key={marker._id} 
-                        position={[marker.latitude, marker.longitude]}
-                        icon={customIcon}
-                    >
-                        <Popup>
-                            <div className="marker-popup">
-                                <h3>{marker.name}</h3>
-                                <p>{marker.description}</p>
-                                <p className="rating">Rating: {marker.rating}/10</p>
-                                {marker.image && (
-                                    <img 
-                                        src={marker.image} 
-                                        alt={marker.name} 
-                                        style={{width: '100%', marginTop: '8px'}} 
-                                    />
-                                )}
-                            </div>
-                        </Popup>
-                    </Marker>
-                ))}
+                {/* Display all existing markers with validation */}
+                {Array.isArray(markers) && markers.map(marker => {
+                    // Validate coordinates before rendering marker
+                    if (!marker?.latitude || !marker?.longitude) {
+                        return null;
+                    }
+                    return (
+                        <Marker 
+                            key={marker._id} 
+                            position={[marker.latitude, marker.longitude]}
+                            icon={customIcon}
+                        >
+                            <Popup>
+                                <div className="marker-popup">
+                                    <h3>{marker.name}</h3>
+                                    <p>{marker.description}</p>
+                                    <p className="rating">Rating: {marker.rating}/10</p>
+                                    {marker.image && (
+                                        <img 
+                                            src={marker.image} 
+                                            alt={marker.name} 
+                                            style={{width: '100%', marginTop: '8px'}} 
+                                        />
+                                    )}
+                                </div>
+                            </Popup>
+                        </Marker>
+                    );
+                })}
             </MapContainer>
         </div>
     );

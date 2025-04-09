@@ -78,11 +78,27 @@ export const useLatestMarkers = () => {
 };
 
 export const useCreateMarker = () => {
-    const {options} = useAuth();
+    const { accessToken } = useContext(UserContext);
+    const options = {
+        headers: {
+            'X-Authorization': accessToken,
+            'Content-Type': 'application/json'
+        }
+    };
 
-    const createMarker = ({name, description, image, rating, latitude, longitude}) => {
-    
-        return request.post(baseUrl, {name, description, image, rating, latitude, longitude}, options);
+    const createMarker = async ({name, description, image, rating, latitude, longitude}) => {
+        if (!accessToken) {
+            throw new Error('Authentication required');
+        }
+        
+        return request.post(baseUrl, {
+            name, 
+            description, 
+            image, 
+            rating, 
+            latitude, 
+            longitude
+        }, options);
     };
 
     return {
