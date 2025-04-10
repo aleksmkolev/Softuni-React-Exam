@@ -14,6 +14,7 @@ Created for Softuni React Module
   - Day/night cycle visualization
   - Custom marker placement
   - Zoom controls
+  - Lat/Long coordinates
 
 - **Marker Management**
   - Create new markers
@@ -21,12 +22,14 @@ Created for Softuni React Module
   - Delete markers
   - Rate locations
   - Add descriptions and images
+  - Quick view markers
 
 - **User Authentication**
   - User registration
   - Login/Logout functionality
   - Protected routes
   - User-specific actions
+  - Comment on markers
 
 - **Responsive Design**
   - Mobile-friendly interface
@@ -40,7 +43,7 @@ Created for Softuni React Module
 - React Router DOM
 - Vite
 
-### Map & Globe
+### Map & Globe libraries
 - react-globe.gl
 - Three.js
 - Leaflet
@@ -55,7 +58,7 @@ Created for Softuni React Module
 
 ## 📦 Component Structure
 
-plaintext
+
 App
 ├── Header
 ├── Routes
@@ -70,10 +73,10 @@ App
 │ ├── Login/Register
 │ └── PageNotFound
 └── Footer
-```
+
 
 ## 🔄 Component Interaction Diagram
-```plaintext
+
 UserContext
     ↓
 App (State Management)
