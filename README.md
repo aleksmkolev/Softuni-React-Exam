@@ -117,7 +117,7 @@ App (State Management)
 git clone <repository-url>
 ```
 
-1. Install dependencies
+2. Install dependencies
 ```bash
 cd globe-box
 npm install
