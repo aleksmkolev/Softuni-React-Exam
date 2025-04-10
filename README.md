@@ -58,7 +58,7 @@ Created for Softuni React Module
 
 ## 📦 Component Structure
 
-
+```
 App
 ├── Header
 ├── Routes
@@ -73,10 +73,10 @@ App
 │ ├── Login/Register
 │ └── PageNotFound
 └── Footer
-
+```
 
 ## 🔄 Component Interaction Diagram
-
+```
 UserContext
     ↓
 App (State Management)
@@ -117,18 +117,18 @@ App (State Management)
 git clone <repository-url>
 ```
 
-2. Install dependencies
+1. Install dependencies
 ```bash
 cd globe-box
 npm install
+npm run dev
 ```
 
 3. Start the development server
 ```bash
-npm run dev
+cd server
+node server.js
+
 ```
 
-4. Build for production
-```bash
-npm run build
-```
+
