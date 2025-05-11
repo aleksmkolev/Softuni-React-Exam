@@ -3,7 +3,7 @@ import request from "../utils/request";
 import { UserContext } from "../contexts/UserContext";
 
 
-const baseUrl = 'http://localhost:3030/data/comments';
+const baseUrl = `${import.meta.env.VITE_APP_SERVER_URL}/data/comments`;
 
 const useAuth = () => {
     const {accessToken} = useContext(UserContext); 

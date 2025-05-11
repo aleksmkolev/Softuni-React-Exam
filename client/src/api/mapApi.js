@@ -3,7 +3,7 @@ import request from "../utils/request";
 import { UserContext } from "../contexts/UserContext";
 
 
-export const baseUrl = 'http://localhost:3030/data/markers';
+export const baseUrl = `${import.meta.env.VITE_APP_SERVER_URL}/data/markers`;
 export const PAGE_SIZE = 3;
 
 const useAuth = () => {

@@ -18,6 +18,12 @@ import AuthGuard from './guards/AuthGuard'
 import GuestGuard from './guards/GuestGuard'
 import useLocalStorage from './hooks/useLocalStorage'
 
+
+
+
+console.log(import.meta.env.VITE_APP_SERVER_URL)
+
+
 function App() {
   const [authData, setAuthData] = useLocalStorage('auth',{});
 

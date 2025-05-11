@@ -1648,10 +1648,10 @@
 
     const port = process.env.PORT
 
-    server.listen(port);
+    server.listen(port);    
 
-    console.log(`Server started on port ${port}. You can make requests to http://localhost:${port}/`);
-    console.log(`Admin panel located at http://localhost:${port}/admin`);
+    console.log(`Server started on port ${port}. You can make requests to ${import.meta.env.VITE_APP_SERVER_URL}:${port}/`);
+    console.log(`Admin panel located at ${import.meta.env.VITE_APP_SERVER_URL}:${port}/admin`);
 
     var softuniPracticeServer = server;
 
